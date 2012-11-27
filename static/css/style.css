@@ -1,0 +1,12 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono);
+
+body {
+    font: 100% "Droid Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+article, section, aside, header, footer {
+    display: block;
+    padding: 1em 0 ;
+
+}
