@@ -23,23 +23,17 @@ def index(sort_by='album'):
 
     return template('index', lists=lists, current=current)
 
-@route('/play/')
-def play():
+@route('/do/<command>/')
+def play(command):
     status = request.mpd.status().get( 'state', '')
-    if status == 'play':
-        request.mpd.pause()
-    else:
-        request.mpd.play()
-    return redirect('/')
-
-@route('/next/')
-def next():
-    request.mpd.next()
-    return redirect('/')
-    
-@route('/prev/')
-def prev():
-    request.mpd.prev()
+    if command == 'play':
+        request.mpd.pause() if status == 'play' else request.mpd.play()
+    elif command == 'next':
+        request.mpd.next()
+    elif command == 'prev':
+        request.mpd.prev()
+    elif command == 'stop':
+        request.mpd.stop()
     return redirect('/')
     
 @route('/static/<filename:path>')

@@ -19,7 +19,7 @@
 
     <body>
         <aside>
-        <nav><a href="/prev/">&#9194;</a><a href="/play/">&#9654;</a><a href="/next/">&#9193;</a></nav>
+        <nav><a href="/do/prev/">&#9194;</a><a href="/do/stop/">&#9632;</a><a href="/do/play/">&#9654;</a><a href="/do/next/">&#9193;</a></nav>
         </aside>
         <section>
         %include
