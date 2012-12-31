@@ -1,5 +1,6 @@
 from bottle import route, run, template, static_file, hook, request, redirect
 from mpd import MPDClient
+from mods import Songs
 import os
 
 BASE_DIR = os.path.dirname(__file__)
@@ -31,7 +32,7 @@ def play(command):
     elif command == 'next':
         request.mpd.next()
     elif command == 'prev':
-        request.mpd.prev()
+        request.mpd.previous()
     elif command == 'stop':
         request.mpd.stop()
     return redirect('/')
@@ -41,5 +42,10 @@ def send_static(filename):
     return static_file(filename, root=os.path.join(BASE_DIR, 'static'))
 
 if __name__ == '__main__':
-    
+    c = MPDClient()
+    c.connect("localhost", 6600)
+
+    for s in c.listallinfo():
+        song = Song(**s)
+        song.save() 
     run(host='localhost', port=8080, reloader=True, debug=True)
