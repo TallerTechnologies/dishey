@@ -1,6 +1,6 @@
 from bottle import route, run, template, static_file, hook, request, redirect
 from mpd import MPDClient
-from mods import Songs
+from mods import Song
 import os
 
 BASE_DIR = os.path.dirname(__file__)
@@ -44,7 +44,7 @@ def send_static(filename):
 if __name__ == '__main__':
     c = MPDClient()
     c.connect("localhost", 6600)
-
+    Song.initialize()
     for s in c.listallinfo():
         song = Song(**s)
         song.save() 

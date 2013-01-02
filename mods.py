@@ -1,4 +1,5 @@
 from goatfish import models
+import sqlite3
 
 class Song(models.Model):
     """title = models.Attribute()
@@ -11,8 +12,10 @@ class Song(models.Model):
                 time = models.Attribute()"""
 
     class Meta:
-        database = ':memory:'
+        connection = sqlite3.connect(':memory:')
         indexes = (
             ('album',),
             ('artist',),
+            ('genre',),
+            ('date',),
         )
