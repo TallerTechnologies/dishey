@@ -10,12 +10,12 @@ class Song(models.Model):
                 file = models.Attribute()
                 genre = models.Attribute()
                 time = models.Attribute()"""
-
+    def __str__(self):
+        return getattr(self, 'title', 'Unnamed Track')
     class Meta:
         connection = sqlite3.connect(':memory:')
         indexes = (
             ('album',),
             ('artist',),
-            ('genre',),
-            ('date',),
+
         )

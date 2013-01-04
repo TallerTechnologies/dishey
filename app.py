@@ -1,7 +1,10 @@
+import os
+import itertools
+import operator
 from bottle import route, run, template, static_file, hook, request, redirect
 from mpd import MPDClient
 from mods import Song
-import os
+
 
 BASE_DIR = os.path.dirname(__file__)
 
@@ -19,10 +22,11 @@ def connect_mpd():
 @route('/')
 @route('/<sort_by>')
 def index(sort_by='album'):
-    lists = request.mpd.list(sort_by)
+    songs = Song.find()
     current = request.mpd.currentsong()
-
-    return template('index', lists=lists, current=current)
+    import ipdb; ipdb.set_trace()
+    ordered = itertools.groupby(songs, key=operator.attrgetter(sort_by))
+    return template('index', songs=ordered, current=current)
 
 @route('/do/<command>/')
 def play(command):
@@ -42,10 +46,15 @@ def send_static(filename):
     return static_file(filename, root=os.path.join(BASE_DIR, 'static'))
 
 if __name__ == '__main__':
+    Song.initialize()
     c = MPDClient()
     c.connect("localhost", 6600)
-    Song.initialize()
     for s in c.listallinfo():
-        song = Song(**s)
-        song.save() 
+        try:
+            song = Song(**s)
+        except Exception as e:
+            print(e, s)
+        else:
+            song.save() 
+    
     run(host='localhost', port=8080, reloader=True, debug=True)

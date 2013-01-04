@@ -1,6 +1,6 @@
 %rebase layout title='Welcome'
-%for l in lists:
+%for s in songs:
 <ul>
-    <li>{{l}}</li>
+    <li>{{s}}</li>
 </ul>
 %end
